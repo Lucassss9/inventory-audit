@@ -1,0 +1,29 @@
+services:
+    postgres:
+        image: postgres:17
+        container_name: inventory_audit
+        restart: unless-stopped
+        volumes:
+            - inventory-volume:/var/lib/postgresql/data
+        environment:
+            POSTGRES_DB: ${POSTGRES_DB}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        ports:
+            - "5433:5432"
+
+    pgadmin:
+        image: dpage/pgadmin4:9.18
+        container_name: inventory_pg
+        restart: unless-stopped
+        volumes:
+            - inventory-pg-volume:/var/lib/pgadmin
+        environment:
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+        ports:
+            -  "5050:80"
+
+volumes:
+    inventory-volume:
+    inventory-pg-volume:
